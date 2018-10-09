@@ -1,4 +1,5 @@
 # Download features from ArcGIS Online or Portal for ArcGIS
+# into a new feature class
 # Jason Bartley
 # Written for use in Python 3.x
 # Requires ArcGIS API for Python and Arcpy
@@ -39,7 +40,7 @@ try:
     # prompt user for which layer to export
     layers = data_item.layers
     layer_choice = 0
-    if len(layers) > 0:
+    if len(layers) > 1:
 
         # print out choices
         print("Choices for layers are:")
@@ -51,7 +52,7 @@ try:
         layer_choice = input("Index of layer: ")
         
     # construct layer url
-    layer_url = '/'.join([data_url, layer_choice])
+    layer_url = '/'.join([data_url, str(layer_choice)])
     feature_layer = FeatureLayer(layer_url, gis)
     featureSet = feature_layer.query(where='1=1', out_fields='*')
     print(featureSet)
