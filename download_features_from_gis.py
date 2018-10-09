@@ -2,22 +2,40 @@
 # Jason Bartley
 # Written for use in Python 3.x
 # Requires ArcGIS API for Python
-# Instructions
+# Instructions to install:
+# https://developers.arcgis.com/python/guide/install-and-set-up/
 
 from arcgis.gis import GIS
 from arcgis.gis import Item
 from arcgis.features.manage_data import extract_data
+import arcpy
 import getpass
-# import arcpy
 
-directory = r'C:\Users\jaso9356\Desktop\dev'
-password = getpass.getpass()
-gis = GIS(username="jason_pug", password=password)
+try:
 
-itemid = "90c142b286144f918c53e005c8bf056c"
-data = gis.content.get(itemid)
-print(data)
-feature_layer = arcgis.features.FeatureLayer(data.url, gis)
+    # set these variables
+    username = "jason_pug"
+    password = getpass.getpass()
+
+    # get item id of layer
+    itemid = "90c142b286144f918c53e005c8bf056c"
+    directory = r'C:\Users\jaso9356\Desktop\dev'
+
+    # url will be https://www.arcgis.com for ArcGIS Online
+    # for portal use http://machinename.domain.com/webadapter
+    url = "https://www.arcgis.com"
+
+
+    # create gis object
+    gis = GIS(url=url, username=username, password=password)
+
+    # get item of layer
+    data = gis.content.get(itemid)
+    feature_layer = arcgis.features.FeatureLayer(data.url, gis)
+
+except Exception as e:
+    print(e)
+    
 # assignment_fl = arcgis.features.FeatureLayer(wf_project["assignments"]["url"], gis)
 # print("Getting assignments...")
 # assignments = assignment_fl.query("1=1")
