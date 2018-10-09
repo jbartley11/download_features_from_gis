@@ -34,24 +34,25 @@ try:
 
     # get item of layer
     data_item = gis.content.get(itemid)
+    data_url = data_item.url
 
     # prompt user for which layer to export
     layers = data_item.layers
     layer_choice = 0
-    if len(layers) > 1:
-
-        layer_choices = {l.properties.id: l.properties.name for l in layers}
+    if len(layers) > 0:
 
         # print out choices
         print("Choices for layers are:")
-        for id, name in layer_choices.items():
-            print("{}: {}".format(id, name))
+        for layer in layers:
+            print("{}: {}".format(layer.properties.id,
+                layer.properties.name))
 
         # prompt user for choice
-        layer_choice = int(input("Index of layer: "))
+        layer_choice = input("Index of layer: ")
         
-
-    feature_layer = FeatureLayer(first_layer.url, gis)
+    # construct layer url
+    layer_url = '/'.join([data_url, layer_choice])
+    feature_layer = FeatureLayer(layer_url, gis)
     featureSet = feature_layer.query(where='1=1', out_fields='*')
     print(featureSet)
 
