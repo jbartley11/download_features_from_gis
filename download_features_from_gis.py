@@ -14,6 +14,17 @@ from arcgis.features.manage_data import extract_data
 import arcpy
 import getpass
 
+# conversion helpers
+geometry_conversion = {"esriGeometryPolygon":"POLYGON",
+                       "esriGeometryPoint":"POINT",
+                       "esriGeometryPolyline":"POLYLINE"}
+
+type_conversion = {"esriFieldTypeSmallInteger": "SHORT",
+                   "esriFieldTypeString": "TEXT",
+                   "esriFieldTypeInteger": "LONG",
+                   "esriFieldTypeDouble": "DOUBLE",
+                   "esriFieldTypeDate": "DATE"}
+                   
 try:
 
     # username and password
@@ -56,6 +67,8 @@ try:
     feature_layer = FeatureLayer(layer_url, gis)
     featureSet = feature_layer.query(where='1=1', out_fields='*')
     print(featureSet)
+
+    # fields
 
 except Exception as e:
     print(e)
