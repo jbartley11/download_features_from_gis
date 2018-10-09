@@ -1,8 +1,9 @@
-# download features from ArcGIS Online or Portal for ArcGIS
+# Download features from ArcGIS Online or Portal for ArcGIS
 # Jason Bartley
 # Written for use in Python 3.x
 # Requires ArcGIS API for Python
 # Instructions
+
 from arcgis.gis import GIS
 from arcgis.gis import Item
 from arcgis.features.manage_data import extract_data
