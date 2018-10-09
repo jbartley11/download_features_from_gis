@@ -1,37 +1,59 @@
 # Download features from ArcGIS Online or Portal for ArcGIS
 # Jason Bartley
 # Written for use in Python 3.x
-# Requires ArcGIS API for Python
+# Requires ArcGIS API for Python and Arcpy
 # Instructions to install:
 # https://developers.arcgis.com/python/guide/install-and-set-up/
+# 
 
 from arcgis.gis import GIS
 from arcgis.gis import Item
+from arcgis.features import FeatureLayer
 from arcgis.features.manage_data import extract_data
 import arcpy
 import getpass
 
 try:
 
-    # set these variables
+    # username and password
     username = "jason_pug"
     password = getpass.getpass()
 
     # get item id of layer
     itemid = "90c142b286144f918c53e005c8bf056c"
+
+    # directory for where gdb will be created
     directory = r'C:\Users\jaso9356\Desktop\dev'
 
     # url will be https://www.arcgis.com for ArcGIS Online
     # for portal use http://machinename.domain.com/webadapter
     url = "https://www.arcgis.com"
 
-
     # create gis object
     gis = GIS(url=url, username=username, password=password)
 
     # get item of layer
-    data = gis.content.get(itemid)
-    feature_layer = arcgis.features.FeatureLayer(data.url, gis)
+    data_item = gis.content.get(itemid)
+
+    # prompt user for which layer to export
+    layers = data_item.layers
+    layer_choice = 0
+    if len(layers) > 1:
+
+        layer_choices = {l.properties.id: l.properties.name for l in layers}
+
+        # print out choices
+        print("Choices for layers are:")
+        for id, name in layer_choices.items():
+            print("{}: {}".format(id, name))
+
+        # prompt user for choice
+        layer_choice = int(input("Index of layer: "))
+        
+
+    feature_layer = FeatureLayer(first_layer.url, gis)
+    featureSet = feature_layer.query(where='1=1', out_fields='*')
+    print(featureSet)
 
 except Exception as e:
     print(e)
